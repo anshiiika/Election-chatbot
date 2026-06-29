@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
 const SESSION_ID = "user_" + Math.random().toString(36).slice(2, 9);
 const YEARS = ["2026", "2021", "2016", "2011"];
 const STATES = ["All", "Assam", "Kerala", "Puducherry", "Tamil Nadu", "West Bengal"];
