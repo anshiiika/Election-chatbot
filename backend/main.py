@@ -33,6 +33,7 @@ sessions: dict[str, list[dict]] = {}
 WINDOW = 3
 
 
+
 def get_history(sid: str) -> list[dict]:
     return sessions.get(sid, [])
 
@@ -172,7 +173,10 @@ class AnswerCheckRequest(BaseModel):
 @app.post("/chat")
 def chat(req: ChatRequest):
     history  = get_history(req.session_id)
-    context  = build_data_context(req.question)
+    
+    history_text = " ".join([m["content"] for m in history])
+    combined_query = history_text + " " + req.question
+    context  = build_data_context(combined_query)
 
     system = """You are a helpful Indian election data assistant covering state assembly elections for 2011, 2016, 2021, and 2026.
 For specific constituency results, sitting MLAs, or election data, use ONLY the election data provided below each message. If the data doesn't contain the answer, say "I don't have that in the dataset."
